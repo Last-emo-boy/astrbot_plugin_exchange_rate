@@ -1,7 +1,6 @@
-from astrbot.api.event import filter, AstrMessageEvent, MessageEventResult, command, llm_tool
-from astrbot.api.star import Context, Star, register
+from astrbot.api.all import *
 import aiohttp
-from mapping import currency_mapping
+from .mapping import currency_mapping
 
 @register("exchange_rate", "w33d", "汇率查询机器人插件", "1.0.0", "https://github.com/Last-emo-boy/astrbot_plugin_exchange_rate")
 class ExchangeRatePlugin(Star):
