@@ -1,0 +1,8 @@
+{
+    "apikey": {
+        "description": "汇率查询API的API密钥",
+        "type": "string",
+        "hint": "请输入您的API密钥",
+        "obvious_hint": true
+    }
+}
