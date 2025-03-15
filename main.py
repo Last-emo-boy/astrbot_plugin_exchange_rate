@@ -2,7 +2,7 @@ from astrbot.api.all import *
 import aiohttp
 from .mapping import currency_mapping
 
-@register("exchange_rate", "w33d", "汇率查询机器人插件", "1.0.0", "https://github.com/Last-emo-boy/astrbot_plugin_exchange_rate")
+@register("exchange_rate", "w33d", "汇率查询机器人插件", "1.0.1", "https://github.com/Last-emo-boy/astrbot_plugin_exchange_rate")
 class ExchangeRatePlugin(Star):
     def __init__(self, context: Context, config: dict):
         super().__init__(context)
@@ -51,7 +51,7 @@ class ExchangeRatePlugin(Star):
             yield event.plain_result("\n".join(lines))
 
     @llm_tool(name="get_exchange_rate")
-    async def get_exchange_rate(self, event: AstrMessageEvent, base: str, target: str) -> MessageEventResult:
+    async def get_exchange_rate(self, event: AstrMessageEvent, base: str, target: str):
         """
         查询汇率信息的 LLM 工具。
         
@@ -69,12 +69,11 @@ class ExchangeRatePlugin(Star):
 
         if data.get("result") != "success":
             error_type = data.get("error-type", "未知错误")
-            yield event.plain_result(f"查询失败: {error_type}")
-            return
+            return f"查询失败: {error_type}"
 
         rates = data.get("conversion_rates", {})
         rate = rates.get(target_code)
         if rate is None:
-            yield event.plain_result(f"目标货币 {target} 不支持查询。")
+            return f"目标货币 {target} 不支持查询。"
         else:
-            yield event.plain_result(f"{base_code} 到 {target_code} 的汇率是: {rate}")
+            return f"{base_code} 到 {target_code} 的汇率是: {rate}"
